@@ -39,9 +39,10 @@ services:
       EMAIL_RETRY_DELAY_MS: "10000"
       SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
     depends_on:
-      - elasticsearch
-      - mailhog
-      - rabbitmq
+      elasticsearch:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
     ports:
       - "8083:8080"
 
@@ -59,6 +60,11 @@ services:
     - xpack.security.http.ssl.enabled=false
     ports:
     - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.2
@@ -75,5 +81,3 @@ services:
 
 volumes:
   pgdata:
-
-
