@@ -74,6 +74,7 @@ docker compose up -d --build
 curl http://localhost:8083/actuator/health
 ```
 _Очікуваний результат - JSON {"status":"UP"}._  
+
 Створення спостереження для відправки email:  
 ```
 curl -X POST http://localhost:8081/api/observation \
@@ -87,6 +88,7 @@ curl -X POST http://localhost:8081/api/observation \
   }'
 ```
 _Очікуваний результат - JSON новоствореної події, нове повідомлення в Web UI на http://localhost:8025._  
+
 Перевірка email у ElasticSearch:
 ```
 docker exec -it internship_task51-elasticsearch-1 sh -lc \
@@ -119,7 +121,7 @@ Internship_Task5.1/
 ```
 ___
 
-### Retry Scheduler  
+## Retry Scheduler  
 
 Фонова процедура реалізована з використанням:
 - @EnableScheduling  
@@ -134,7 +136,7 @@ ___
   - lastAttemptAt  
   - errorMessage (у разі помилки)  
 ___
-### Інтеграційні тести  
+## Інтеграційні тести  
 Реалізовані такі інтеграційні тести:  
 1. EmailSendListenerIT:
 - успішна відправка email  
