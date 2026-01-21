@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: email-service
+  
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:25}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${SMTP_AUTH:false}
+      mail.smtp.starttls.enable: ${SMTP_STARTTLS:false}
+
+  rabbitmq:
+    host: ${RABBIT_HOST:rabbitmq}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:guest}
+    password: ${RABBIT_PASS:guest}
+
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS:http://elasticsearch:9200}
+
+mb:
+  email:
+    exchange: ${EMAIL_EXCHANGE:email.exchange}
+    routingKey: ${EMAIL_ROUTING_KEY:email.routingKey}
+    queue: ${EMAIL_QUEUE:email.queue}
+
+email:
+  from: ${SMTP_FROM:no-reply@example.com}
+
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+

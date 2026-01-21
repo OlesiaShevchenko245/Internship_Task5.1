@@ -1,0 +1,20 @@
+mb:
+  email:
+    queue: email.queue
+    exchange: email.exchange
+    routingKey: email.queue
+
+admin:
+  email: admin@test.com
+
+spring:
+  mail:
+    host: localhost
+    port: 2525
+    username: test
+    password: test
+
+management:
+  health:
+    mail:
+      enabled: false
