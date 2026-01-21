@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="astronomy">
+        <createTable tableName="authors">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nationality" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_author_nationality" tableName="authors">
+            <column name="nationality"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2" author="astronomy">
+        <createTable tableName="astronomical_observations">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="observation_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="BIGINT">
+                <constraints nullable="false" 
+                            foreignKeyName="fk_observation_author" 
+                            references="authors(id)"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_observation_author_id" tableName="astronomical_observations">
+            <column name="author_id"/>
+        </createIndex>
+        
+        <createIndex indexName="idx_observation_name" tableName="astronomical_observations">
+            <column name="name"/>
+        </createIndex>
+        
+        <createIndex indexName="idx_observation_time" tableName="astronomical_observations">
+            <column name="observation_time"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="3" author="astronomy">
+        <createTable tableName="celestial_objects">
+            <column name="observation_id" type="BIGINT">
+                <constraints nullable="false" 
+                            foreignKeyName="fk_celestial_observation" 
+                            references="astronomical_observations(id)"
+                            deleteCascade="true"/>
+            </column>
+            <column name="object_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_celestial_observation_id" tableName="celestial_objects">
+            <column name="observation_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="4" author="astronomy">
+        <insert tableName="authors">
+            <column name="first_name" value="Galileo"/>
+            <column name="last_name" value="Galilei"/>
+            <column name="nationality" value="Italian"/>
+        </insert>
+        
+        <insert tableName="authors">
+            <column name="first_name" value="Edwin"/>
+            <column name="last_name" value="Hubble"/>
+            <column name="nationality" value="American"/>
+        </insert>
+        
+        <insert tableName="authors">
+            <column name="first_name" value="Johannes"/>
+            <column name="last_name" value="Kepler"/>
+            <column name="nationality" value="German"/>
+        </insert>
+        
+        <insert tableName="authors">
+            <column name="first_name" value="Caroline"/>
+            <column name="last_name" value="Herschel"/>
+            <column name="nationality" value="British"/>
+        </insert>
+        
+        <insert tableName="authors">
+            <column name="first_name" value="Tycho"/>
+            <column name="last_name" value="Brahe"/>
+            <column name="nationality" value="Danish"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/cosmorum_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:pass}
+  
+  rabbitmq:
+    host: ${RABBIT_HOST:rabbitmq}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:guest}
+    password: ${RABBIT_PASS:guest}
+
+mb:
+  email:
+    exchange: ${EMAIL_EXCHANGE:email.exchange}
+    routingKey: ${EMAIL_ROUTING_KEY:email.routingKey}
+
+admin:
+  email: ${ADMIN_EMAIL:admin@example.com}

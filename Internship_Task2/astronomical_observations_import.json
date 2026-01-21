@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Jupiter and its Galilean Moons",
+    "description": "Observation of Jupiter showing all four Galilean moons: Io, Europa, Ganymede, and Callisto. Jupiter's Great Red Spot was clearly visible.",
+    "observationTime": "2024-01-15T21:30:00",
+    "authorId": 1,
+    "celestialObjects": ["Jupiter", "Io", "Europa", "Ganymede", "Callisto"]
+  },
+  {
+    "name": "Andromeda Galaxy Deep Sky",
+    "description": "Extended exposure observation of the Andromeda Galaxy (M31) revealing spiral structure and companion galaxies M32 and M110.",
+    "observationTime": "2024-01-20T23:45:00",
+    "authorId": 2,
+    "celestialObjects": ["Andromeda Galaxy", "M31", "M32", "M110"]
+  },
+  {
+    "name": "Saturn's Rings at Opposition",
+    "description": "Saturn observation at opposition showing ring system at maximum tilt. Cassini Division clearly visible. Titan also observed.",
+    "observationTime": "2024-02-10T22:15:00",
+    "authorId": 3,
+    "celestialObjects": ["Saturn", "Titan", "Saturn's Rings"]
+  },
+  {
+    "name": "Orion Nebula Complex",
+    "description": "Observation of the Orion Nebula (M42) and surrounding nebulosity. The Trapezium cluster resolved into individual stars.",
+    "observationTime": "2024-02-14T20:00:00",
+    "authorId": 1,
+    "celestialObjects": ["Orion Nebula", "M42", "Trapezium Cluster"]
+  },
+  {
+    "name": "Lunar Eclipse Total Phase",
+    "description": "Total lunar eclipse observation. Moon displayed deep red color during totality. Eclipse duration: 85 minutes.",
+    "observationTime": "2024-03-05T02:30:00",
+    "authorId": 4,
+    "celestialObjects": ["Moon"]
+  },
+  {
+    "name": "Comet 12P/Pons-Brooks",
+    "description": "Observation of periodic comet 12P showing well-developed coma and short tail. Magnitude approximately 6.5.",
+    "observationTime": "2024-03-18T21:00:00",
+    "authorId": 5,
+    "celestialObjects": ["Comet 12P/Pons-Brooks"]
+  },
+  {
+    "name": "Mars Surface Features",
+    "description": "High-resolution observation of Mars showing polar ice cap and dark surface features including Syrtis Major.",
+    "observationTime": "2024-03-22T23:30:00",
+    "authorId": 2,
+    "celestialObjects": ["Mars", "Syrtis Major"]
+  },
+  {
+    "name": "Pleiades Star Cluster",
+    "description": "Wide-field observation of the Pleiades (M45) showing blue reflection nebulosity around the brightest stars.",
+    "observationTime": "2024-04-01T21:45:00",
+    "authorId": 3,
+    "celestialObjects": ["Pleiades", "M45"]
+  },
+  {
+    "name": "Venus Crescent Phase",
+    "description": "Venus observation showing distinct crescent phase at 35% illumination. Surface brightness very high.",
+    "observationTime": "2024-04-10T19:30:00",
+    "authorId": 1,
+    "celestialObjects": ["Venus"]
+  },
+  {
+    "name": "Whirlpool Galaxy",
+    "description": "Observation of M51 (Whirlpool Galaxy) and companion NGC 5195. Spiral arms clearly visible in both galaxies.",
+    "observationTime": "2024-04-25T22:00:00",
+    "authorId": 4,
+    "celestialObjects": ["M51", "Whirlpool Galaxy", "NGC 5195"]
+  },
+  {
+    "name": "International Space Station Transit",
+    "description": "ISS transit across the face of the Moon captured. Transit duration: 0.8 seconds. Excellent visibility.",
+    "observationTime": "2024-05-03T21:12:00",
+    "authorId": 5,
+    "celestialObjects": ["ISS", "Moon"]
+  },
+  {
+    "name": "Ring Nebula in Lyra",
+    "description": "Observation of M57 (Ring Nebula) showing classic ring structure. Central star visible with averted vision.",
+    "observationTime": "2024-05-15T23:00:00",
+    "authorId": 2,
+    "celestialObjects": ["M57", "Ring Nebula"]
+  },
+  {
+    "name": "Mercury at Greatest Elongation",
+    "description": "Rare observation of Mercury at greatest eastern elongation. Planet visible low on western horizon after sunset.",
+    "observationTime": "2024-05-20T20:15:00",
+    "authorId": 3,
+    "celestialObjects": ["Mercury"]
+  },
+  {
+    "name": "Hercules Globular Cluster",
+    "description": "Deep observation of M13 (Great Hercules Cluster) resolving thousands of individual stars in the core region.",
+    "observationTime": "2024-06-01T22:30:00",
+    "authorId": 1,
+    "celestialObjects": ["M13", "Hercules Cluster"]
+  },
+  {
+    "name": "Summer Triangle Asterism",
+    "description": "Wide-field observation showing Vega, Deneb, and Altair forming the Summer Triangle. Milky Way visible between stars.",
+    "observationTime": "2024-06-15T23:45:00",
+    "authorId": 4,
+    "celestialObjects": ["Vega", "Deneb", "Altair"]
+  }
+]
