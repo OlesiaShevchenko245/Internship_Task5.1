@@ -36,7 +36,8 @@ git clone <repository-url>
 cd Internship_Task5.1
 ```
 ### Налаштування змінних середовища (створення файлу .env на основі .env.example)
-```Для запуску з MailHog:  
+Для запуску з MailHog  
+```  
 RABBIT_HOST=rabbitmq
 RABBIT_PORT=5672
 RABBIT_USER=guest
@@ -68,11 +69,13 @@ POSTGRES_PASSWORD=pass
 docker compose up -d --build
 ```
 ### Перевірка роботи
-```Перевірка стану Email Service
+Перевірка стану Email Service  
+```
 curl http://localhost:8083/actuator/health
 ```
 _Очікуваний результат - JSON {"status":"UP"}._  
-```Створення спостереження для відправки email
+Створення спостереження для відправки email  
+```
 curl -X POST http://localhost:8081/api/observation \
   -H "Content-Type: application/json" \
   -d '{
@@ -84,7 +87,8 @@ curl -X POST http://localhost:8081/api/observation \
   }'
 ```
 _Очікуваний результат - JSON новоствореної події, нове повідомлення в Web UI на http://localhost:8025._  
-```Перевірка email у ElasticSearch
+Перевірка email у ElasticSearch
+```
 docker exec -it internship_task51-elasticsearch-1 sh -lc \
 'curl -s "http://localhost:9200/email_messages/_search?pretty" \
 -H "Content-Type: application/json" \
@@ -140,7 +144,8 @@ ___
 - успішний retry
 - повторна помилка з оновленням attempt та errorMessage
 
-```Запуск
+Запуск
+```
 cd demo
 ./mvnw test
 # або окремо
