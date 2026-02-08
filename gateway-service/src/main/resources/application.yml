@@ -1,0 +1,60 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: gateway-service
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: "http://localhost:8088/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+              - email
+
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+
+      routes:
+        - id: observations
+          uri: http://task2-observations-service:8080
+          predicates:
+            - Path=/api/observation/**
+
+        - id: authors
+          uri: http://task2-observations-service:8080
+          predicates:
+            - Path=/api/author/**
+
+        - id: email
+          uri: http://email-service:8080
+          predicates:
+            - Path=/api/email/**
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    cookieName: COSMORUM_TOKEN
+    ttlMinutes: 120
+    secureCookie: ${SECURE_COOKIE:false}
+    sameSite: ${COOKIE_SAMESITE:Lax}
+
+frontend:
+  url: ${FRONTEND_URL:http://localhost:3000}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+    reactor.netty.transport: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+

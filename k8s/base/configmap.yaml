@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cosmorum-config
+  namespace: cosmorum
+data:
+  FRONTEND_URL: "https://REPLACE_WITH_YOUR_DOMAIN"
+
+  SECURE_COOKIE: "true"
+  COOKIE_SAMESITE: "None"
+
+  SPRING_ELASTICSEARCH_URIS: "http://elasticsearch:9200"
+
+  SMTP_HOST: "mailhog"
+  SMTP_PORT: "1025"
+  SMTP_USERNAME: ""
+  SMTP_PASSWORD: ""
+  SMTP_AUTH: "false"
+  SMTP_STARTTLS_ENABLE: "false"
+  SMTP_STARTTLS_REQUIRED: "false"

@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -14,20 +14,22 @@ services:
     env_file:
       - ./.env
     environment:
+      JWT_SECRET: ${JWT_SECRET}
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
     depends_on:
       - postgres
-    ports:
-      - "8081:8080"
+    expose:
+      - "8080"
 
   email-service:
     build:
-      context: ./demo
+      context: ./email-service
     env_file:
       - ./.env
     environment:
+      JWT_SECRET: ${JWT_SECRET}
       SPRING_MAIL_HOST: ${SMTP_HOST}
       SPRING_MAIL_PORT: ${SMTP_PORT}
       SPRING_MAIL_USERNAME: ${SMTP_USERNAME}
@@ -55,9 +57,10 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
     environment:
-    - discovery.type=single-node
-    - xpack.security.enabled=false
-    - xpack.security.http.ssl.enabled=false
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     ports:
     - "9200:9200"
     healthcheck:
@@ -72,7 +75,9 @@ services:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - "5601:5601"
-  
+    depends_on:
+      - elasticsearch
+
   mailhog:
     image: mailhog/mailhog
     ports:

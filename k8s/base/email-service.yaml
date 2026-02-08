@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-service
+  namespace: cosmorum
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: email-service }
+  template:
+    metadata:
+      labels: { app: email-service }
+    spec:
+      containers:
+        - name: app
+          image: REPLACE_WITH_GAR_IMAGE_EMAIL
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JWT_SECRET
+              valueFrom: { secretKeyRef: { name: cosmorum-secrets, key: JWT_SECRET } }
+
+            - name: SPRING_MAIL_HOST
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_HOST } }
+            - name: SPRING_MAIL_PORT
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_PORT } }
+            - name: SPRING_MAIL_USERNAME
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_USERNAME } }
+            - name: SPRING_MAIL_PASSWORD
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_PASSWORD } }
+            - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_AUTH } }
+            - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_STARTTLS_ENABLE } }
+            - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SMTP_STARTTLS_REQUIRED } }
+
+            - name: SPRING_ELASTICSEARCH_URIS
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SPRING_ELASTICSEARCH_URIS } }
+
+            - name: EMAIL_RETRY_DELAY_MS
+              value: "10000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: email-service
+  namespace: cosmorum
+spec:
+  selector: { app: email-service }
+  ports:
+    - port: 8080
+      targetPort: 8080

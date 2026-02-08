@@ -1,0 +1,23 @@
+{
+  "btn.cancel": "Cancel",
+  "btn.signUp.apply": "Sign Up",
+  "error.INTERNAL_SERVER_ERROR": "Some internal error occurred. Please try again later.",
+  "error.REGISTRATION_EMAIL_ALREADY_EXISTS": "Specified email was already registered",
+  "error.REGISTRATION_LOGIN_ALREADY_EXISTS": "Specified login was already registered",
+  "error.WRONG_LOGIN_OR_PASSWORD": "Wrong login/email or password",
+  "field.email": "Email",
+  "field.firstName": "First Name",
+  "field.lastName": "Last Name",
+  "field.login": "Login",
+  "field.loginOrEmail": "Login or Email",
+  "field.password": "Password",
+  "field.passwordConfirm": "*Confirm password",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "signUp.error.EMPTY_SIGN_UP_LOGIN": "Login can't be empty",
+  "signUp.error.EMPTY_SIGN_UP_EMAIL": "Email can't be empty",
+  "signUp.error.EMPTY_SIGN_UP_PASSWORD": "Password can't be empty",
+  "signUp.error.EMPTY_SIGN_UP_PASSWORD_CONFIRM": "Confirm password can't be empty",
+  "signUp.error.INVALID_EMAIL": "Invalid email format",
+  "signUp.error.PASSWORDS_MISMATCHES": "Password was not confirmed"
+}

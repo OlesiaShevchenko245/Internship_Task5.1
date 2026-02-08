@@ -1,0 +1,84 @@
+name: Build & Deploy to GKE
+
+on:
+  push:
+    branches: ["master"]
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GAR_LOCATION: europe-west1
+  GAR_REPO: cosmorum
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER_NAME }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+
+  NAMESPACE: cosmorum
+
+  IMG_GATEWAY: gateway-service
+  IMG_FRONTEND: frontend
+  IMG_TASK2: task2-observations-service
+  IMG_EMAIL: email-service
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure docker for GAR
+        run: gcloud auth configure-docker $GAR_LOCATION-docker.pkg.dev --quiet
+
+      - name: Get GKE credentials
+        run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$PROJECT_ID"
+
+      - name: Build & Push images
+        run: |
+          set -e
+
+          TAG=${GITHUB_SHA}
+
+          docker build -t $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_GATEWAY:$TAG ./gateway-service
+          docker build -t $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_FRONTEND:$TAG ./frontend
+          docker build -t $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_TASK2:$TAG ./Internship_Task2
+          docker build -t $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_EMAIL:$TAG ./email-service
+
+          docker push $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_GATEWAY:$TAG
+          docker push $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_FRONTEND:$TAG
+          docker push $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_TASK2:$TAG
+          docker push $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_EMAIL:$TAG
+
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Patch manifests with images + apply
+        run: |
+          set -e
+
+          TAG=${{ env.TAG }}
+
+          GW=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_GATEWAY:$TAG
+          FE=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_FRONTEND:$TAG
+          T2=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_TASK2:$TAG
+          EM=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMG_EMAIL:$TAG
+
+          sed -i "s|REPLACE_WITH_GAR_IMAGE_GATEWAY|$GW|g" k8s/base/gateway.yaml
+          sed -i "s|REPLACE_WITH_GAR_IMAGE_FRONTEND|$FE|g" k8s/base/frontend.yaml
+          sed -i "s|REPLACE_WITH_GAR_IMAGE_TASK2|$T2|g" k8s/base/task2-observations.yaml
+          sed -i "s|REPLACE_WITH_GAR_IMAGE_EMAIL|$EM|g" k8s/base/email-service.yaml
+
+          kubectl apply -k k8s/base
+
+      - name: Rollout status
+        run: |
+          kubectl -n $NAMESPACE rollout status deploy/gateway-service --timeout=180s
+          kubectl -n $NAMESPACE rollout status deploy/frontend --timeout=180s
+          kubectl -n $NAMESPACE rollout status deploy/task2-observations-service --timeout=180s
+          kubectl -n $NAMESPACE rollout status deploy/email-service --timeout=180s
