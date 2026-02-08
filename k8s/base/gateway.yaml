@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+  namespace: cosmorum
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: gateway-service }
+  template:
+    metadata:
+      labels: { app: gateway-service }
+    spec:
+      containers:
+        - name: app
+          image: REPLACE_WITH_GAR_IMAGE_GATEWAY
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GOOGLE_CLIENT_ID
+              valueFrom: { secretKeyRef: { name: cosmorum-secrets, key: GOOGLE_CLIENT_ID } }
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom: { secretKeyRef: { name: cosmorum-secrets, key: GOOGLE_CLIENT_SECRET } }
+            - name: JWT_SECRET
+              valueFrom: { secretKeyRef: { name: cosmorum-secrets, key: JWT_SECRET } }
+
+            - name: FRONTEND_URL
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: FRONTEND_URL } }
+
+            - name: SECURE_COOKIE
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: SECURE_COOKIE } }
+            - name: COOKIE_SAMESITE
+              valueFrom: { configMapKeyRef: { name: cosmorum-config, key: COOKIE_SAMESITE } }
+
+            # щоб не з'їло пам'ять на маленькому ноді
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: cosmorum
+spec:
+  selector: { app: gateway-service }
+  ports:
+    - port: 8080
+      targetPort: 8080

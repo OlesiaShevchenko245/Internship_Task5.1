@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: cosmorum
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - postgres.yaml
+  - rabbitmq.yaml
+  - elasticsearch.yaml
+  - mailhog.yaml
+  - task2-observations.yaml
+  - email-service.yaml
+  - gateway.yaml
+  - frontend.yaml
+  - ingress.yaml
